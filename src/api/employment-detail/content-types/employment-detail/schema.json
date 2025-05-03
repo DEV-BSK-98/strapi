@@ -1,0 +1,40 @@
+{
+  "kind": "collectionType",
+  "collectionName": "employment_details",
+  "info": {
+    "singularName": "employment-detail",
+    "pluralName": "employment-details",
+    "displayName": "Employment Detail",
+    "description": ""
+  },
+  "options": {
+    "draftAndPublish": true
+  },
+  "attributes": {
+    "EmployerName": {
+      "type": "string",
+      "required": true
+    },
+    "JobTitle": {
+      "type": "string",
+      "required": true
+    },
+    "EmploymentType": {
+      "type": "string",
+      "required": true
+    },
+    "AnnualIncome": {
+      "type": "decimal",
+      "required": true
+    },
+    "EmploymentStatus": {
+      "type": "string",
+      "required": true
+    },
+    "applicant": {
+      "type": "relation",
+      "relation": "oneToOne",
+      "target": "api::applicant.applicant"
+    }
+  }
+}

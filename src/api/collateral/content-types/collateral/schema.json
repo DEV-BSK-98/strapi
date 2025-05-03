@@ -1,0 +1,37 @@
+{
+  "kind": "collectionType",
+  "collectionName": "collaterals",
+  "info": {
+    "singularName": "collateral",
+    "pluralName": "collaterals",
+    "displayName": "Collateral"
+  },
+  "options": {
+    "draftAndPublish": true
+  },
+  "attributes": {
+    "Description": {
+      "type": "customField",
+      "options": {
+        "output": "html"
+      },
+      "customField": "plugin::bold-title-editor.bold-title"
+    },
+    "EstimatedValue": {
+      "type": "decimal"
+    },
+    "OwnershipProof": {
+      "type": "customField",
+      "options": {
+        "output": "html"
+      },
+      "customField": "plugin::bold-title-editor.bold-title"
+    },
+    "loan_applications": {
+      "type": "relation",
+      "relation": "oneToMany",
+      "target": "api::loan-application.loan-application",
+      "mappedBy": "collateral"
+    }
+  }
+}

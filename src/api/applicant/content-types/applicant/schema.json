@@ -1,0 +1,52 @@
+{
+  "kind": "collectionType",
+  "collectionName": "applicants",
+  "info": {
+    "singularName": "applicant",
+    "pluralName": "applicants",
+    "displayName": "Applicant"
+  },
+  "options": {
+    "draftAndPublish": true
+  },
+  "attributes": {
+    "FullName": {
+      "type": "string",
+      "required": true
+    },
+    "DateOfBirth": {
+      "type": "string",
+      "required": true
+    },
+    "SSN": {
+      "type": "string",
+      "required": true
+    },
+    "Email": {
+      "type": "string",
+      "required": true,
+      "unique": true
+    },
+    "Phone": {
+      "type": "string",
+      "unique": true,
+      "required": true
+    },
+    "Address": {
+      "type": "customField",
+      "customField": "plugin::address-selection.address"
+    },
+    "loan_applications": {
+      "type": "relation",
+      "relation": "oneToMany",
+      "target": "api::loan-application.loan-application",
+      "mappedBy": "applicant"
+    },
+    "credit_evaluations": {
+      "type": "relation",
+      "relation": "oneToMany",
+      "target": "api::credit-evaluation.credit-evaluation",
+      "mappedBy": "applicant"
+    }
+  }
+}

@@ -1,0 +1,39 @@
+{
+  "kind": "collectionType",
+  "collectionName": "credit_evaluations",
+  "info": {
+    "singularName": "credit-evaluation",
+    "pluralName": "credit-evaluations",
+    "displayName": "CreditEvaluation"
+  },
+  "options": {
+    "draftAndPublish": true
+  },
+  "attributes": {
+    "applicant": {
+      "type": "relation",
+      "relation": "manyToOne",
+      "target": "api::applicant.applicant",
+      "inversedBy": "credit_evaluations"
+    },
+    "CreditScore": {
+      "type": "integer"
+    },
+    "CreditReport": {
+      "type": "customField",
+      "options": {
+        "output": "html"
+      },
+      "customField": "plugin::bold-title-editor.bold-title"
+    },
+    "EvaluationDate": {
+      "type": "datetime"
+    },
+    "users_permissions_user": {
+      "type": "relation",
+      "relation": "manyToOne",
+      "target": "plugin::users-permissions.user",
+      "inversedBy": "credit_evaluations"
+    }
+  }
+}

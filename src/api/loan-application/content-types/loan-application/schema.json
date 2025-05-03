@@ -1,0 +1,69 @@
+{
+  "kind": "collectionType",
+  "collectionName": "loan_applications",
+  "info": {
+    "singularName": "loan-application",
+    "pluralName": "loan-applications",
+    "displayName": "Loan Application",
+    "description": ""
+  },
+  "options": {
+    "draftAndPublish": true
+  },
+  "attributes": {
+    "LoanAmount": {
+      "type": "string",
+      "required": true
+    },
+    "LoanPurpose": {
+      "type": "customField",
+      "options": {
+        "output": "html"
+      },
+      "customField": "plugin::bold-title-editor.bold-title",
+      "required": true
+    },
+    "LoanTermMonths": {
+      "type": "integer",
+      "required": true
+    },
+    "InterestRate": {
+      "type": "decimal"
+    },
+    "ApplicationStatus": {
+      "type": "string",
+      "required": true
+    },
+    "ApplicationDate": {
+      "type": "datetime"
+    },
+    "ApprovedDate": {
+      "type": "datetime"
+    },
+    "users_permissions_user": {
+      "type": "relation",
+      "relation": "manyToOne",
+      "target": "plugin::users-permissions.user",
+      "inversedBy": "loan_applications"
+    },
+    "Notes": {
+      "type": "customField",
+      "options": {
+        "output": "html"
+      },
+      "customField": "plugin::bold-title-editor.bold-title"
+    },
+    "applicant": {
+      "type": "relation",
+      "relation": "manyToOne",
+      "target": "api::applicant.applicant",
+      "inversedBy": "loan_applications"
+    },
+    "collateral": {
+      "type": "relation",
+      "relation": "manyToOne",
+      "target": "api::collateral.collateral",
+      "inversedBy": "loan_applications"
+    }
+  }
+}
