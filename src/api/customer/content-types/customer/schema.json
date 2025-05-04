@@ -1,0 +1,42 @@
+{
+  "kind": "collectionType",
+  "collectionName": "customers",
+  "info": {
+    "singularName": "customer",
+    "pluralName": "customers",
+    "displayName": "Customer"
+  },
+  "options": {
+    "draftAndPublish": true
+  },
+  "attributes": {
+    "slug": {
+      "type": "uid",
+      "required": true
+    },
+    "gender": {
+      "type": "string",
+      "required": true,
+      "minLength": 4
+    },
+    "taxIdentificationNo": {
+      "type": "string",
+      "required": true,
+      "unique": true
+    },
+    "registration_type": {
+      "type": "string"
+    },
+    "industry": {
+      "type": "string"
+    },
+    "sector": {
+      "type": "string"
+    },
+    "email": {
+      "type": "string",
+      "required": true,
+      "unique": true
+    }
+  }
+}

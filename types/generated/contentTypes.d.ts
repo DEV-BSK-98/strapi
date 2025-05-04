@@ -506,6 +506,48 @@ export interface ApiCreditEvaluationCreditEvaluation
   };
 }
 
+export interface ApiCustomerCustomer extends Struct.CollectionTypeSchema {
+  collectionName: 'customers';
+  info: {
+    displayName: 'Customer';
+    pluralName: 'customers';
+    singularName: 'customer';
+  };
+  options: {
+    draftAndPublish: true;
+  };
+  attributes: {
+    createdAt: Schema.Attribute.DateTime;
+    createdBy: Schema.Attribute.Relation<'oneToOne', 'admin::user'> &
+      Schema.Attribute.Private;
+    email: Schema.Attribute.String &
+      Schema.Attribute.Required &
+      Schema.Attribute.Unique;
+    gender: Schema.Attribute.String &
+      Schema.Attribute.Required &
+      Schema.Attribute.SetMinMaxLength<{
+        minLength: 4;
+      }>;
+    industry: Schema.Attribute.String;
+    locale: Schema.Attribute.String & Schema.Attribute.Private;
+    localizations: Schema.Attribute.Relation<
+      'oneToMany',
+      'api::customer.customer'
+    > &
+      Schema.Attribute.Private;
+    publishedAt: Schema.Attribute.DateTime;
+    registration_type: Schema.Attribute.String;
+    sector: Schema.Attribute.String;
+    slug: Schema.Attribute.UID & Schema.Attribute.Required;
+    taxIdentificationNo: Schema.Attribute.String &
+      Schema.Attribute.Required &
+      Schema.Attribute.Unique;
+    updatedAt: Schema.Attribute.DateTime;
+    updatedBy: Schema.Attribute.Relation<'oneToOne', 'admin::user'> &
+      Schema.Attribute.Private;
+  };
+}
+
 export interface ApiEmploymentDetailEmploymentDetail
   extends Struct.CollectionTypeSchema {
   collectionName: 'employment_details';
@@ -1170,6 +1212,7 @@ declare module '@strapi/strapi' {
       'api::applicant.applicant': ApiApplicantApplicant;
       'api::collateral.collateral': ApiCollateralCollateral;
       'api::credit-evaluation.credit-evaluation': ApiCreditEvaluationCreditEvaluation;
+      'api::customer.customer': ApiCustomerCustomer;
       'api::employment-detail.employment-detail': ApiEmploymentDetailEmploymentDetail;
       'api::loan-application.loan-application': ApiLoanApplicationLoanApplication;
       'plugin::content-releases.release': PluginContentReleasesRelease;
