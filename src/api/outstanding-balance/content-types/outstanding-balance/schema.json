@@ -4,7 +4,8 @@
   "info": {
     "singularName": "outstanding-balance",
     "pluralName": "outstanding-balances",
-    "displayName": "Outstanding balance"
+    "displayName": "Outstanding balance",
+    "description": ""
   },
   "options": {
     "draftAndPublish": true
@@ -21,23 +22,42 @@
       "target": "api::customer.customer",
       "inversedBy": "outstanding_balances"
     },
-    "principal_outstanding": {
+    "outstandingPrinciple": {
       "type": "decimal"
     },
-    "interest_outstanding": {
+    "interestOutstanding": {
       "type": "decimal"
     },
-    "penalty_outstanding": {
+    "penaltyOutstanding": {
       "type": "decimal"
     },
-    "total_outstanding": {
+    "totalOutstanding": {
       "type": "decimal"
     },
-    "last_payment_date": {
+    "lastPaymentDate": {
       "type": "datetime"
     },
-    "payment_date_next_due": {
+    "paymentDateNextDue": {
       "type": "datetime"
+    },
+    "currency": {
+      "type": "string"
+    },
+    "daysPastDue": {
+      "type": "integer"
+    },
+    "interestRate": {
+      "type": "decimal"
+    },
+    "repaymentStatus": {
+      "type": "string"
+    },
+    "remarks": {
+      "type": "customField",
+      "options": {
+        "output": "html"
+      },
+      "customField": "plugin::bold-title-editor.bold-title"
     }
   }
 }

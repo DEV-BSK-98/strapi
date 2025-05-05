@@ -785,6 +785,7 @@ export interface ApiOutstandingBalanceOutstandingBalance
   extends Struct.CollectionTypeSchema {
   collectionName: 'outstanding_balances';
   info: {
+    description: '';
     displayName: 'Outstanding balance';
     pluralName: 'outstanding-balances';
     singularName: 'outstanding-balance';
@@ -796,9 +797,12 @@ export interface ApiOutstandingBalanceOutstandingBalance
     createdAt: Schema.Attribute.DateTime;
     createdBy: Schema.Attribute.Relation<'oneToOne', 'admin::user'> &
       Schema.Attribute.Private;
+    currency: Schema.Attribute.String;
     customer: Schema.Attribute.Relation<'manyToOne', 'api::customer.customer'>;
-    interest_outstanding: Schema.Attribute.Decimal;
-    last_payment_date: Schema.Attribute.DateTime;
+    daysPastDue: Schema.Attribute.Integer;
+    interestOutstanding: Schema.Attribute.Decimal;
+    interestRate: Schema.Attribute.Decimal;
+    lastPaymentDate: Schema.Attribute.DateTime;
     loan_item: Schema.Attribute.Relation<
       'oneToOne',
       'api::loan-item.loan-item'
@@ -809,11 +813,19 @@ export interface ApiOutstandingBalanceOutstandingBalance
       'api::outstanding-balance.outstanding-balance'
     > &
       Schema.Attribute.Private;
-    payment_date_next_due: Schema.Attribute.DateTime;
-    penalty_outstanding: Schema.Attribute.Decimal;
-    principal_outstanding: Schema.Attribute.Decimal;
+    outstandingPrinciple: Schema.Attribute.Decimal;
+    paymentDateNextDue: Schema.Attribute.DateTime;
+    penaltyOutstanding: Schema.Attribute.Decimal;
     publishedAt: Schema.Attribute.DateTime;
-    total_outstanding: Schema.Attribute.Decimal;
+    remarks: Schema.Attribute.String &
+      Schema.Attribute.CustomField<
+        'plugin::bold-title-editor.bold-title',
+        {
+          output: 'html';
+        }
+      >;
+    repaymentStatus: Schema.Attribute.String;
+    totalOutstanding: Schema.Attribute.Decimal;
     updatedAt: Schema.Attribute.DateTime;
     updatedBy: Schema.Attribute.Relation<'oneToOne', 'admin::user'> &
       Schema.Attribute.Private;
