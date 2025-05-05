@@ -26,6 +26,7 @@
     "react-dom": "^18.0.0",
     "react-router-dom": "^6.0.0",
     "strapi-advanced-uuid": "^2.0.2",
+    "strapi-country-select": "^1.0.1",
     "strapi-plugin-address-selection": "^1.0.1",
     "strapi-plugin-email-designer-5": "^0.0.7",
     "strapi-plugin-multi-select": "^2.1.1",

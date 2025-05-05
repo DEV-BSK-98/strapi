@@ -11,59 +11,73 @@
     "draftAndPublish": true
   },
   "attributes": {
-    "LoanAmount": {
+    "name": {
       "type": "string",
-      "required": true
+      "required": true,
+      "unique": true
     },
-    "LoanPurpose": {
-      "type": "customField",
-      "options": {
-        "output": "html"
-      },
-      "customField": "plugin::bold-title-editor.bold-title",
-      "required": true
+    "application_date": {
+      "type": "datetime"
     },
-    "LoanTermMonths": {
-      "type": "integer",
-      "required": true
+    "repayment_date": {
+      "type": "datetime"
     },
-    "InterestRate": {
+    "closure_date": {
+      "type": "datetime"
+    },
+    "penalty_status": {
+      "type": "string"
+    },
+    "branch": {
+      "type": "relation",
+      "relation": "oneToOne",
+      "target": "api::branch.branch",
+      "inversedBy": "loan_application"
+    },
+    "applicant_type": {
+      "type": "string"
+    },
+    "customer": {
+      "type": "relation",
+      "relation": "manyToOne",
+      "target": "api::customer.customer",
+      "inversedBy": "loan_applications"
+    },
+    "company": {
+      "type": "string"
+    },
+    "loan_collateral_reference": {
+      "type": "string"
+    },
+    "extra_charge_computation_method": {
+      "type": "string"
+    },
+    "loan_item": {
+      "type": "relation",
+      "relation": "manyToOne",
+      "target": "api::loan-item.loan-item",
+      "inversedBy": "loan_applications"
+    },
+    "add_extra_charges": {
       "type": "decimal"
     },
-    "ApplicationStatus": {
-      "type": "string",
+    "loan_amount": {
+      "type": "decimal"
+    },
+    "principal_amount": {
+      "type": "decimal"
+    },
+    "total_extra_charge_amount": {
+      "type": "decimal"
+    },
+    "applicant_attachments": {
+      "allowedTypes": [
+        "images",
+        "files"
+      ],
+      "type": "media",
+      "multiple": true,
       "required": true
-    },
-    "ApplicationDate": {
-      "type": "datetime"
-    },
-    "ApprovedDate": {
-      "type": "datetime"
-    },
-    "users_permissions_user": {
-      "type": "relation",
-      "relation": "manyToOne",
-      "target": "plugin::users-permissions.user",
-      "inversedBy": "loan_applications"
-    },
-    "Notes": {
-      "type": "customField",
-      "options": {
-        "output": "html"
-      },
-      "customField": "plugin::bold-title-editor.bold-title"
-    },
-    "applicant": {
-      "type": "relation",
-      "relation": "manyToOne",
-      "target": "api::applicant.applicant",
-      "inversedBy": "loan_applications"
-    },
-    "collateral": {
-      "type": "relation",
-      "relation": "manyToOne",
-      "target": "api::collateral.collateral",
-      "inversedBy": "loan_applications"
     }
   }
 }

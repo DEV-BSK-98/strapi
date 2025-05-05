@@ -394,10 +394,6 @@ export interface ApiApplicantApplicant extends Struct.CollectionTypeSchema {
       Schema.Attribute.Required &
       Schema.Attribute.Unique;
     FullName: Schema.Attribute.String & Schema.Attribute.Required;
-    loan_applications: Schema.Attribute.Relation<
-      'oneToMany',
-      'api::loan-application.loan-application'
-    >;
     locale: Schema.Attribute.String & Schema.Attribute.Private;
     localizations: Schema.Attribute.Relation<
       'oneToMany',
@@ -409,6 +405,44 @@ export interface ApiApplicantApplicant extends Struct.CollectionTypeSchema {
       Schema.Attribute.Unique;
     publishedAt: Schema.Attribute.DateTime;
     SSN: Schema.Attribute.String & Schema.Attribute.Required;
+    updatedAt: Schema.Attribute.DateTime;
+    updatedBy: Schema.Attribute.Relation<'oneToOne', 'admin::user'> &
+      Schema.Attribute.Private;
+  };
+}
+
+export interface ApiBranchBranch extends Struct.CollectionTypeSchema {
+  collectionName: 'branches';
+  info: {
+    displayName: 'Branch';
+    pluralName: 'branches';
+    singularName: 'branch';
+  };
+  options: {
+    draftAndPublish: true;
+  };
+  attributes: {
+    createdAt: Schema.Attribute.DateTime;
+    createdBy: Schema.Attribute.Relation<'oneToOne', 'admin::user'> &
+      Schema.Attribute.Private;
+    customers: Schema.Attribute.Relation<
+      'manyToMany',
+      'api::customer.customer'
+    >;
+    loan_application: Schema.Attribute.Relation<
+      'oneToOne',
+      'api::loan-application.loan-application'
+    >;
+    locale: Schema.Attribute.String & Schema.Attribute.Private;
+    localizations: Schema.Attribute.Relation<
+      'oneToMany',
+      'api::branch.branch'
+    > &
+      Schema.Attribute.Private;
+    name: Schema.Attribute.String &
+      Schema.Attribute.Required &
+      Schema.Attribute.Unique;
+    publishedAt: Schema.Attribute.DateTime;
     updatedAt: Schema.Attribute.DateTime;
     updatedBy: Schema.Attribute.Relation<'oneToOne', 'admin::user'> &
       Schema.Attribute.Private;
@@ -437,10 +471,6 @@ export interface ApiCollateralCollateral extends Struct.CollectionTypeSchema {
         }
       >;
     EstimatedValue: Schema.Attribute.Decimal;
-    loan_applications: Schema.Attribute.Relation<
-      'oneToMany',
-      'api::loan-application.loan-application'
-    >;
     locale: Schema.Attribute.String & Schema.Attribute.Private;
     localizations: Schema.Attribute.Relation<
       'oneToMany',
@@ -509,6 +539,7 @@ export interface ApiCreditEvaluationCreditEvaluation
 export interface ApiCustomerCustomer extends Struct.CollectionTypeSchema {
   collectionName: 'customers';
   info: {
+    description: '';
     displayName: 'Customer';
     pluralName: 'customers';
     singularName: 'customer';
@@ -517,6 +548,16 @@ export interface ApiCustomerCustomer extends Struct.CollectionTypeSchema {
     draftAndPublish: true;
   };
   attributes: {
+    bank_account_no: Schema.Attribute.String;
+    bank_branch_code: Schema.Attribute.String;
+    bank_name: Schema.Attribute.String;
+    bank_sort_code: Schema.Attribute.String;
+    bank_swift_code: Schema.Attribute.String;
+    branches: Schema.Attribute.Relation<'manyToMany', 'api::branch.branch'>;
+    city: Schema.Attribute.String;
+    contactNo: Schema.Attribute.String;
+    country: Schema.Attribute.String &
+      Schema.Attribute.CustomField<'plugin::strapi-country-select.country-select'>;
     createdAt: Schema.Attribute.DateTime;
     createdBy: Schema.Attribute.Relation<'oneToOne', 'admin::user'> &
       Schema.Attribute.Private;
@@ -529,14 +570,30 @@ export interface ApiCustomerCustomer extends Struct.CollectionTypeSchema {
         minLength: 4;
       }>;
     industry: Schema.Attribute.String;
+    is_smart_invoice_registered: Schema.Attribute.Integer;
+    loan_applications: Schema.Attribute.Relation<
+      'oneToMany',
+      'api::loan-application.loan-application'
+    >;
     locale: Schema.Attribute.String & Schema.Attribute.Private;
     localizations: Schema.Attribute.Relation<
       'oneToMany',
       'api::customer.customer'
     > &
       Schema.Attribute.Private;
+    outstanding_balances: Schema.Attribute.Relation<
+      'oneToMany',
+      'api::outstanding-balance.outstanding-balance'
+    >;
+    physical_address: Schema.Attribute.String &
+      Schema.Attribute.CustomField<'plugin::address-selection.address'>;
+    postal_address: Schema.Attribute.String &
+      Schema.Attribute.CustomField<'plugin::address-selection.address'>;
+    province: Schema.Attribute.String;
     publishedAt: Schema.Attribute.DateTime;
+    registration_no: Schema.Attribute.String;
     registration_type: Schema.Attribute.String;
+    reporting_currency: Schema.Attribute.String;
     sector: Schema.Attribute.String;
     slug: Schema.Attribute.UID & Schema.Attribute.Required;
     taxIdentificationNo: Schema.Attribute.String &
@@ -599,52 +656,167 @@ export interface ApiLoanApplicationLoanApplication
     draftAndPublish: true;
   };
   attributes: {
-    applicant: Schema.Attribute.Relation<
-      'manyToOne',
-      'api::applicant.applicant'
-    >;
-    ApplicationDate: Schema.Attribute.DateTime;
-    ApplicationStatus: Schema.Attribute.String & Schema.Attribute.Required;
-    ApprovedDate: Schema.Attribute.DateTime;
-    collateral: Schema.Attribute.Relation<
-      'manyToOne',
-      'api::collateral.collateral'
-    >;
+    add_extra_charges: Schema.Attribute.Decimal;
+    applicant_attachments: Schema.Attribute.Media<'images' | 'files', true> &
+      Schema.Attribute.Required;
+    applicant_type: Schema.Attribute.String;
+    application_date: Schema.Attribute.DateTime;
+    branch: Schema.Attribute.Relation<'oneToOne', 'api::branch.branch'>;
+    closure_date: Schema.Attribute.DateTime;
+    company: Schema.Attribute.String;
     createdAt: Schema.Attribute.DateTime;
     createdBy: Schema.Attribute.Relation<'oneToOne', 'admin::user'> &
       Schema.Attribute.Private;
-    InterestRate: Schema.Attribute.Decimal;
-    LoanAmount: Schema.Attribute.String & Schema.Attribute.Required;
-    LoanPurpose: Schema.Attribute.String &
-      Schema.Attribute.Required &
-      Schema.Attribute.CustomField<
-        'plugin::bold-title-editor.bold-title',
-        {
-          output: 'html';
-        }
-      >;
-    LoanTermMonths: Schema.Attribute.Integer & Schema.Attribute.Required;
+    customer: Schema.Attribute.Relation<'manyToOne', 'api::customer.customer'>;
+    extra_charge_computation_method: Schema.Attribute.String;
+    loan_amount: Schema.Attribute.Decimal;
+    loan_collateral_reference: Schema.Attribute.String;
+    loan_item: Schema.Attribute.Relation<
+      'manyToOne',
+      'api::loan-item.loan-item'
+    >;
     locale: Schema.Attribute.String & Schema.Attribute.Private;
     localizations: Schema.Attribute.Relation<
       'oneToMany',
       'api::loan-application.loan-application'
     > &
       Schema.Attribute.Private;
-    Notes: Schema.Attribute.String &
+    name: Schema.Attribute.String &
+      Schema.Attribute.Required &
+      Schema.Attribute.Unique;
+    penalty_status: Schema.Attribute.String;
+    principal_amount: Schema.Attribute.Decimal;
+    publishedAt: Schema.Attribute.DateTime;
+    repayment_date: Schema.Attribute.DateTime;
+    total_extra_charge_amount: Schema.Attribute.Decimal;
+    updatedAt: Schema.Attribute.DateTime;
+    updatedBy: Schema.Attribute.Relation<'oneToOne', 'admin::user'> &
+      Schema.Attribute.Private;
+  };
+}
+
+export interface ApiLoanComputationMethodLoanComputationMethod
+  extends Struct.CollectionTypeSchema {
+  collectionName: 'loan_computation_methods';
+  info: {
+    displayName: 'Loan Computation Method';
+    pluralName: 'loan-computation-methods';
+    singularName: 'loan-computation-method';
+  };
+  options: {
+    draftAndPublish: true;
+  };
+  attributes: {
+    createdAt: Schema.Attribute.DateTime;
+    createdBy: Schema.Attribute.Relation<'oneToOne', 'admin::user'> &
+      Schema.Attribute.Private;
+    description: Schema.Attribute.String &
       Schema.Attribute.CustomField<
         'plugin::bold-title-editor.bold-title',
         {
           output: 'html';
         }
       >;
+    formula: Schema.Attribute.String &
+      Schema.Attribute.CustomField<
+        'plugin::bold-title-editor.bold-title',
+        {
+          output: 'html';
+        }
+      >;
+    locale: Schema.Attribute.String & Schema.Attribute.Private;
+    localizations: Schema.Attribute.Relation<
+      'oneToMany',
+      'api::loan-computation-method.loan-computation-method'
+    > &
+      Schema.Attribute.Private;
     publishedAt: Schema.Attribute.DateTime;
     updatedAt: Schema.Attribute.DateTime;
     updatedBy: Schema.Attribute.Relation<'oneToOne', 'admin::user'> &
       Schema.Attribute.Private;
-    users_permissions_user: Schema.Attribute.Relation<
-      'manyToOne',
-      'plugin::users-permissions.user'
+  };
+}
+
+export interface ApiLoanItemLoanItem extends Struct.CollectionTypeSchema {
+  collectionName: 'loan_items';
+  info: {
+    displayName: 'Loan Item';
+    pluralName: 'loan-items';
+    singularName: 'loan-item';
+  };
+  options: {
+    draftAndPublish: true;
+  };
+  attributes: {
+    createdAt: Schema.Attribute.DateTime;
+    createdBy: Schema.Attribute.Relation<'oneToOne', 'admin::user'> &
+      Schema.Attribute.Private;
+    description: Schema.Attribute.String &
+      Schema.Attribute.CustomField<
+        'plugin::bold-title-editor.bold-title',
+        {
+          output: 'HTML';
+        }
+      >;
+    grace_period: Schema.Attribute.Integer;
+    interest_rate: Schema.Attribute.Decimal;
+    loan_applications: Schema.Attribute.Relation<
+      'oneToMany',
+      'api::loan-application.loan-application'
     >;
+    locale: Schema.Attribute.String & Schema.Attribute.Private;
+    localizations: Schema.Attribute.Relation<
+      'oneToMany',
+      'api::loan-item.loan-item'
+    > &
+      Schema.Attribute.Private;
+    maximum_loan_amount: Schema.Attribute.Decimal;
+    minimum_loan_amount: Schema.Attribute.Decimal;
+    name: Schema.Attribute.String;
+    penalty_interest_rate: Schema.Attribute.Decimal;
+    publishedAt: Schema.Attribute.DateTime;
+    updatedAt: Schema.Attribute.DateTime;
+    updatedBy: Schema.Attribute.Relation<'oneToOne', 'admin::user'> &
+      Schema.Attribute.Private;
+  };
+}
+
+export interface ApiOutstandingBalanceOutstandingBalance
+  extends Struct.CollectionTypeSchema {
+  collectionName: 'outstanding_balances';
+  info: {
+    displayName: 'Outstanding balance';
+    pluralName: 'outstanding-balances';
+    singularName: 'outstanding-balance';
+  };
+  options: {
+    draftAndPublish: true;
+  };
+  attributes: {
+    createdAt: Schema.Attribute.DateTime;
+    createdBy: Schema.Attribute.Relation<'oneToOne', 'admin::user'> &
+      Schema.Attribute.Private;
+    customer: Schema.Attribute.Relation<'manyToOne', 'api::customer.customer'>;
+    interest_outstanding: Schema.Attribute.Decimal;
+    last_payment_date: Schema.Attribute.DateTime;
+    loan_item: Schema.Attribute.Relation<
+      'oneToOne',
+      'api::loan-item.loan-item'
+    >;
+    locale: Schema.Attribute.String & Schema.Attribute.Private;
+    localizations: Schema.Attribute.Relation<
+      'oneToMany',
+      'api::outstanding-balance.outstanding-balance'
+    > &
+      Schema.Attribute.Private;
+    payment_date_next_due: Schema.Attribute.DateTime;
+    penalty_outstanding: Schema.Attribute.Decimal;
+    principal_outstanding: Schema.Attribute.Decimal;
+    publishedAt: Schema.Attribute.DateTime;
+    total_outstanding: Schema.Attribute.Decimal;
+    updatedAt: Schema.Attribute.DateTime;
+    updatedBy: Schema.Attribute.Relation<'oneToOne', 'admin::user'> &
+      Schema.Attribute.Private;
   };
 }
 
@@ -1165,10 +1337,6 @@ export interface PluginUsersPermissionsUser
       Schema.Attribute.SetMinMaxLength<{
         minLength: 6;
       }>;
-    loan_applications: Schema.Attribute.Relation<
-      'oneToMany',
-      'api::loan-application.loan-application'
-    >;
     locale: Schema.Attribute.String & Schema.Attribute.Private;
     localizations: Schema.Attribute.Relation<
       'oneToMany',
@@ -1210,11 +1378,15 @@ declare module '@strapi/strapi' {
       'admin::transfer-token-permission': AdminTransferTokenPermission;
       'admin::user': AdminUser;
       'api::applicant.applicant': ApiApplicantApplicant;
+      'api::branch.branch': ApiBranchBranch;
       'api::collateral.collateral': ApiCollateralCollateral;
       'api::credit-evaluation.credit-evaluation': ApiCreditEvaluationCreditEvaluation;
       'api::customer.customer': ApiCustomerCustomer;
       'api::employment-detail.employment-detail': ApiEmploymentDetailEmploymentDetail;
       'api::loan-application.loan-application': ApiLoanApplicationLoanApplication;
+      'api::loan-computation-method.loan-computation-method': ApiLoanComputationMethodLoanComputationMethod;
+      'api::loan-item.loan-item': ApiLoanItemLoanItem;
+      'api::outstanding-balance.outstanding-balance': ApiOutstandingBalanceOutstandingBalance;
       'plugin::content-releases.release': PluginContentReleasesRelease;
       'plugin::content-releases.release-action': PluginContentReleasesReleaseAction;
       'plugin::email-designer-5.email-designer-template': PluginEmailDesigner5EmailDesignerTemplate;

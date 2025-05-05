@@ -1,0 +1,7 @@
+/**
+ * outstanding-balance router
+ */
+
+import { factories } from '@strapi/strapi';
+
+export default factories.createCoreRouter('api::outstanding-balance.outstanding-balance');

@@ -1,0 +1,31 @@
+{
+  "kind": "collectionType",
+  "collectionName": "branches",
+  "info": {
+    "singularName": "branch",
+    "pluralName": "branches",
+    "displayName": "Branch"
+  },
+  "options": {
+    "draftAndPublish": true
+  },
+  "attributes": {
+    "name": {
+      "type": "string",
+      "required": true,
+      "unique": true
+    },
+    "customers": {
+      "type": "relation",
+      "relation": "manyToMany",
+      "target": "api::customer.customer",
+      "mappedBy": "branches"
+    },
+    "loan_application": {
+      "type": "relation",
+      "relation": "oneToOne",
+      "target": "api::loan-application.loan-application",
+      "mappedBy": "branch"
+    }
+  }
+}

@@ -1,26 +1,23 @@
 {
   "kind": "collectionType",
-  "collectionName": "collaterals",
+  "collectionName": "loan_computation_methods",
   "info": {
-    "singularName": "collateral",
-    "pluralName": "collaterals",
-    "displayName": "Collateral"
+    "singularName": "loan-computation-method",
+    "pluralName": "loan-computation-methods",
+    "displayName": "Loan Computation Method"
   },
   "options": {
     "draftAndPublish": true
   },
   "attributes": {
-    "Description": {
+    "description": {
       "type": "customField",
       "options": {
         "output": "html"
       },
       "customField": "plugin::bold-title-editor.bold-title"
     },
-    "EstimatedValue": {
-      "type": "decimal"
-    },
-    "OwnershipProof": {
+    "formula": {
       "type": "customField",
       "options": {
         "output": "html"

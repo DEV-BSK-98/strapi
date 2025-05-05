@@ -4,7 +4,8 @@
   "info": {
     "singularName": "customer",
     "pluralName": "customers",
-    "displayName": "Customer"
+    "displayName": "Customer",
+    "description": ""
   },
   "options": {
     "draftAndPublish": true
@@ -37,6 +38,69 @@
       "type": "string",
       "required": true,
       "unique": true
+    },
+    "country": {
+      "type": "customField",
+      "customField": "plugin::strapi-country-select.country-select"
+    },
+    "province": {
+      "type": "string"
+    },
+    "city": {
+      "type": "string"
+    },
+    "contactNo": {
+      "type": "string"
+    },
+    "physical_address": {
+      "type": "customField",
+      "customField": "plugin::address-selection.address"
+    },
+    "postal_address": {
+      "type": "customField",
+      "customField": "plugin::address-selection.address"
+    },
+    "reporting_currency": {
+      "type": "string"
+    },
+    "registration_no": {
+      "type": "string"
+    },
+    "bank_name": {
+      "type": "string"
+    },
+    "bank_account_no": {
+      "type": "string"
+    },
+    "bank_branch_code": {
+      "type": "string"
+    },
+    "bank_swift_code": {
+      "type": "string"
+    },
+    "bank_sort_code": {
+      "type": "string"
+    },
+    "is_smart_invoice_registered": {
+      "type": "integer"
+    },
+    "branches": {
+      "type": "relation",
+      "relation": "manyToMany",
+      "target": "api::branch.branch",
+      "inversedBy": "customers"
+    },
+    "loan_applications": {
+      "type": "relation",
+      "relation": "oneToMany",
+      "target": "api::loan-application.loan-application",
+      "mappedBy": "customer"
+    },
+    "outstanding_balances": {
+      "type": "relation",
+      "relation": "oneToMany",
+      "target": "api::outstanding-balance.outstanding-balance",
+      "mappedBy": "customer"
     }
   }
 }

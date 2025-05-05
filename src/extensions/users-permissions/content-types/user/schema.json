@@ -65,12 +65,6 @@
       "inversedBy": "users",
       "configurable": false
     },
-    "loan_applications": {
-      "type": "relation",
-      "relation": "oneToMany",
-      "target": "api::loan-application.loan-application",
-      "mappedBy": "users_permissions_user"
-    },
     "credit_evaluations": {
       "type": "relation",
       "relation": "oneToMany",

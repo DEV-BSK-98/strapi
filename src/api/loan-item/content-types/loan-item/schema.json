@@ -1,0 +1,45 @@
+{
+  "kind": "collectionType",
+  "collectionName": "loan_items",
+  "info": {
+    "singularName": "loan-item",
+    "pluralName": "loan-items",
+    "displayName": "Loan Item"
+  },
+  "options": {
+    "draftAndPublish": true
+  },
+  "attributes": {
+    "name": {
+      "type": "string"
+    },
+    "minimum_loan_amount": {
+      "type": "decimal"
+    },
+    "maximum_loan_amount": {
+      "type": "decimal"
+    },
+    "interest_rate": {
+      "type": "decimal"
+    },
+    "penalty_interest_rate": {
+      "type": "decimal"
+    },
+    "grace_period": {
+      "type": "integer"
+    },
+    "description": {
+      "type": "customField",
+      "options": {
+        "output": "HTML"
+      },
+      "customField": "plugin::bold-title-editor.bold-title"
+    },
+    "loan_applications": {
+      "type": "relation",
+      "relation": "oneToMany",
+      "target": "api::loan-application.loan-application",
+      "mappedBy": "loan_item"
+    }
+  }
+}

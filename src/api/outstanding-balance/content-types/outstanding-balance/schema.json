@@ -1,0 +1,43 @@
+{
+  "kind": "collectionType",
+  "collectionName": "outstanding_balances",
+  "info": {
+    "singularName": "outstanding-balance",
+    "pluralName": "outstanding-balances",
+    "displayName": "Outstanding balance"
+  },
+  "options": {
+    "draftAndPublish": true
+  },
+  "attributes": {
+    "loan_item": {
+      "type": "relation",
+      "relation": "oneToOne",
+      "target": "api::loan-item.loan-item"
+    },
+    "customer": {
+      "type": "relation",
+      "relation": "manyToOne",
+      "target": "api::customer.customer",
+      "inversedBy": "outstanding_balances"
+    },
+    "principal_outstanding": {
+      "type": "decimal"
+    },
+    "interest_outstanding": {
+      "type": "decimal"
+    },
+    "penalty_outstanding": {
+      "type": "decimal"
+    },
+    "total_outstanding": {
+      "type": "decimal"
+    },
+    "last_payment_date": {
+      "type": "datetime"
+    },
+    "payment_date_next_due": {
+      "type": "datetime"
+    }
+  }
+}
